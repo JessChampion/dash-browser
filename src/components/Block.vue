@@ -1,48 +1,70 @@
 <template>
-  <div class="hello">
-    {{name}}
+  <div v-if="leaf" :class="classes">
+    {{id}} : {{name}}
+  </div>
+  <div v-else :class="classes">
+    <Block v-bind="getChild(0)"/>
+    <Block v-bind="getChild(1)"/>
   </div>
 </template>
 
 <script>
+  const getClasses = (leaf, color, vertical) => {
+    if (leaf) {
+      return `block leaf color-${color}`;
+    }
+    const orientation = vertical ? 'vertical' : 'horizontal';
+    return `block ${orientation}`;
+  };
+
+  const isLeafNode = children => !children || children.length === 0;
+
   export default {
     name: 'Block',
-    props: ['data'],
-    data() {
-      //is leaf node
-      if (this.data.children && this.data.children.length > 0) {
-        return {
-          isLeaf: false,
-          children: this.data.children,
-          vertical: true
-        };
-      }
-      return {
-        isLeaf: false,
-        color: 'blue',
-        vertical: true,
-      };
+    props: {
+      id: Number,
+      name: String,
+      vertical: Boolean,
+      color: String,
+      children: Array
     },
+    data() {
+      const leaf = isLeafNode(this.children);
+      return {
+        classes: getClasses(this.leaf, this.color, this.vertical),
+        leaf,
+        getChild: (index) => {
+          if (leaf || index === 0 || index === 1) {
+            return this.children[index];
+          }
+          return null;
+        }
+      };
+    }
   };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  h1, h2 {
-    font-weight: normal;
+<style>
+  .block {
+    display: grid;
+    border: 1px solid var(--color-black);
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
   }
 
-  ul {
-    list-style-type: none;
-    padding: 0;
+  .block.vertical{
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
   }
 
-  li {
-    display: inline-block;
-    margin: 0 10px;
+  .block.horizontal{
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
   }
 
-  a {
-    color: #42b983;
+  .leaf{
+    display: block;
   }
+
 </style>

@@ -1,0 +1,52 @@
+{
+  "id": 1,
+  "name": "Block 1",
+  "vertical": true,
+  "color": null,
+  "children": [
+    {
+      "id": 2,
+      "name": "Block 1",
+      "vertical": true,
+      "color": "blue",
+      "children": null
+    },
+    {
+      "id": 3,
+      "name": "Block 1",
+      "vertical": true,
+      "color": null,
+      "children": [
+        {
+          "id": 4,
+          "name": "Block 4",
+          "vertical": false,
+          "color": "blue",
+          "children": [
+            {
+              "id": 6,
+              "name": "Block 6",
+              "vertical": true,
+              "color": "blue",
+              "children": null
+            },
+            {
+              "id": 7,
+              "name": "Block 7",
+              "vertical": true,
+              "color": "pink",
+              "children": null
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Block 5",
+          "vertical": true,
+          "color": "pink",
+          "children": null
+        }
+      ]
+    }
+  ]
+}

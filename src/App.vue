@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <Block v-bind:data="rootBlock"/>
+    <Block v-bind="rootBlock"/>
   </div>
 </template>
 
 <script>
+  import data from './data.json';
   import Block from './components/Block';
 
   export default {
@@ -14,51 +15,34 @@
     },
     data() {
       return {
-        rootBlock: {
-          id: 1,
-          name: 'Block 1',
-          vertical: true,
-          color: null,
-          children: [
-            {
-              id: 2,
-              name: 'Block 1',
-              vertical: true,
-              color: 'blue',
-              children: null
-            }, {
-              id: 3,
-              name: 'Block 1',
-              vertical: true,
-              color: null,
-              children: [{
-                id: 4,
-                name: 'Block 4',
-                vertical: true,
-                color: 'blue',
-                children: null
-              }, {
-                id: 5,
-                name: 'Block 5',
-                vertical: true,
-                color: 'pink',
-                children: null
-              }]
-            }
-          ]
-        }
+        rootBlock: data
       };
     }
   };
 </script>
 
 <style>
+  :root {
+    --color-background: #EFEFEF;
+    --color-black: #333333;
+    --padding: 0.5rem;
+    --full: 100%;
+    --fullWithPadding: calc(100% - calc(var(--padding) * 2));
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
   #app {
+    background: var(--color-background);
+    color: var(--color-black);
+    display: grid;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+    font-size: 16px;
+    min-height: var(--fullWithPadding);
+    padding: var(--padding);
+    width: var(--fullWithPadding);
   }
 </style>
