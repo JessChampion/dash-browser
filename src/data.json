@@ -1,49 +1,49 @@
 {
   "id": 1,
-  "name": "Block 1",
+  "url": "Block 1",
+  "size": 100,
   "vertical": true,
-  "color": null,
   "children": [
     {
       "id": 2,
-      "name": "Block 1",
+      "url": "Block 1",
+      "size": 50,
       "vertical": true,
-      "color": "blue",
       "children": null
     },
     {
       "id": 3,
-      "name": "Block 1",
+      "url": "Block 1",
+      "size": 50,
       "vertical": true,
-      "color": null,
       "children": [
         {
           "id": 4,
-          "name": "Block 4",
+          "url": "Block 4",
+          "size": 50,
           "vertical": false,
-          "color": "blue",
           "children": [
             {
               "id": 6,
-              "name": "Block 6",
+              "url": "Block 6",
+              "size": 50,
               "vertical": true,
-              "color": "blue",
               "children": null
             },
             {
               "id": 7,
-              "name": "Block 7",
+              "url": "Block 7",
+              "size": 50,
               "vertical": true,
-              "color": "pink",
               "children": null
             }
           ]
         },
         {
           "id": 5,
-          "name": "Block 5",
+          "url": "Block 5",
+          "size": 50,
           "vertical": true,
-          "color": "pink",
           "children": null
         }
       ]

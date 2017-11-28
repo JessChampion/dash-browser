@@ -1,6 +1,6 @@
 <template>
-  <div v-if="leaf" :class="classes">
-    {{id}} : {{name}}
+  <div v-if="leaf" :class="classes" :id="`block-${id}`">
+    {{id}} : {{url}}
   </div>
   <div v-else :class="classes">
     <Block v-bind="getChild(0)"/>
@@ -9,12 +9,11 @@
 </template>
 
 <script>
-  const getClasses = (leaf, color, vertical) => {
+  const getClasses = (leaf, vertical) => {
     if (leaf) {
-      return `block leaf color-${color}`;
+      return 'block leaf';
     }
-    const orientation = vertical ? 'vertical' : 'horizontal';
-    return `block ${orientation}`;
+    return `block ${vertical ? 'vertical' : 'horizontal'} `;
   };
 
   const isLeafNode = children => !children || children.length === 0;
@@ -23,15 +22,29 @@
     name: 'Block',
     props: {
       id: Number,
-      name: String,
+      url: String,
+      size: Number,
       vertical: Boolean,
-      color: String,
       children: Array
+    },
+    methods: {
+      resize: (percentage) => {
+        // eslint-disable-next-line no-console
+        console.log(`resize ${percentage}`);
+      },
+      setUrl: (url) => {
+        // eslint-disable-next-line no-console
+        console.log(`setUrl ${url}`);
+      },
+      split: () => {
+        // eslint-disable-next-line no-console
+        console.log('split');
+      }
     },
     data() {
       const leaf = isLeafNode(this.children);
       return {
-        classes: getClasses(this.leaf, this.color, this.vertical),
+        classes: getClasses(this.leaf, this.vertical),
         leaf,
         getChild: (index) => {
           if (leaf || index === 0 || index === 1) {
@@ -47,24 +60,23 @@
 <style>
   .block {
     display: grid;
-    border: 1px solid var(--color-black);
+    border: var(--borderWidth) solid var(--color-black);
     width: 100%;
     height: 100%;
     min-height: 100%;
   }
 
-  .block.vertical{
+  .block.vertical {
     grid-template-columns: 50% 50%;
     grid-template-rows: 100%;
   }
 
-  .block.horizontal{
+  .block.horizontal {
     grid-template-columns: 100%;
     grid-template-rows: 50% 50%;
   }
 
-  .leaf{
+  .leaf {
     display: block;
   }
-
 </style>
