@@ -1,28 +1,50 @@
 <template>
-  <div v-if="leaf" :class="classes" :id="`block-${id}`">
-    {{id}} : {{url}}
+  <div v-if="leaf"
+       :id="`block-${id}`"
+       :class="classes"
+       :style="styles"
+  >
+    {{content.url}}
   </div>
-  <div v-else :class="classes">
-    <Block v-bind="getChild(0)"/>
-    <Block v-bind="getChild(1)"/>
+  <div v-else
+       :class="classes"
+       :style="styles"
+  >
+    <Block v-bind="children[0]"/>
+    <Block v-bind="children[1]"/>
   </div>
 </template>
 
 <script>
-  const getClasses = (leaf, vertical) => {
+  const isLeafNode = children => !children || children.length === 0;
+
+  const getOrientation = vertical => (vertical ? 'vertical' : 'horizontal');
+
+  // todo: impliment resizing
+  //  const getResizeStyles = orientation => `resize: ${orientation}`;
+
+  const getGridStyles = (children, vertical) => {
+    const childSizes = children.map(x => x.size);
+
+    if (vertical) {
+      return `grid-template-columns: ${childSizes[0]}% ${childSizes[1]}%;`;
+    }
+    return `grid-template-rows: ${childSizes[0]}% ${childSizes[1]}%;`;
+  };
+
+  const getClasses = (leaf, orientation) => {
     if (leaf) {
       return 'block leaf';
     }
-    return `block ${vertical ? 'vertical' : 'horizontal'} `;
+    return `block ${orientation}`;
   };
 
-  const isLeafNode = children => !children || children.length === 0;
 
   export default {
     name: 'Block',
     props: {
       id: Number,
-      url: String,
+      content: { url: String },
       size: Number,
       vertical: Boolean,
       children: Array
@@ -43,15 +65,15 @@
     },
     data() {
       const leaf = isLeafNode(this.children);
+      const orientation = getOrientation(this.vertical);
+      const classes = getClasses(this.leaf, orientation);
+      const styles = leaf ? '' : getGridStyles(this.children, this.vertical);
+
       return {
-        classes: getClasses(this.leaf, this.vertical),
+        classes,
         leaf,
-        getChild: (index) => {
-          if (leaf || index === 0 || index === 1) {
-            return this.children[index];
-          }
-          return null;
-        }
+        orientation,
+        styles
       };
     }
   };
@@ -66,17 +88,8 @@
     min-height: 100%;
   }
 
-  .block.vertical {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 100%;
-  }
-
-  .block.horizontal {
-    grid-template-columns: 100%;
-    grid-template-rows: 50% 50%;
-  }
-
   .leaf {
     display: block;
+    overflow: auto;
   }
 </style>
